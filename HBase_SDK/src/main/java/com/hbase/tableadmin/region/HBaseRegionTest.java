@@ -3,8 +3,8 @@ package com.hbase.tableadmin.region;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.*;
 import org.apache.hadoop.hbase.client.HBaseAdmin;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.util.Map;
@@ -22,7 +22,7 @@ public class HBaseRegionTest {
     static HBaseAdmin hBaseAdmin;
     static Configuration conf;
 
-    @BeforeClass
+    @Before
     public void before() {
         conf = HBaseConfiguration.create();
         try {

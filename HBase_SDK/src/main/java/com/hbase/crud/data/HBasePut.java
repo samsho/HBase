@@ -1,4 +1,4 @@
-package com.hbase.crud.table;
+package com.hbase.crud.data;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
