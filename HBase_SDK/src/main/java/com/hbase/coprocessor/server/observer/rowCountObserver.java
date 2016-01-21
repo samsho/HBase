@@ -1,4 +1,4 @@
-package com.hbase.coprocessor;
+package com.hbase.coprocessor.server.observer;
 
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.CoprocessorEnvironment;

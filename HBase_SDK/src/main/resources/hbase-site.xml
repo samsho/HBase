@@ -87,7 +87,7 @@
 	<value>org.apache.hadoop.hbase.coprocessor.AggregateImplementation</value>
 </property>
 <property>
-    <name>hbase.replication</name>
-    <value>true</value>
+	<name>hbase.replication</name>
+	<value>true</value>
 </property>
 </configuration>
