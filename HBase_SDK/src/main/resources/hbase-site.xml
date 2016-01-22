@@ -42,6 +42,8 @@
 	<name>hbase.zookeeper.quorum</name>
 	<value>master,slave1,slave2</value>
 </property>
+
+	<!--
 	<property>
 	<name>hbase.rpc.timeout</name>
 	<value>600000</value>
@@ -81,13 +83,13 @@
 <property>
 	<name>hbase.hregion.max.filesize</name>
 	<value>10737418240</value>
-</property>
-<property>
+</property>-->
+<!--<property>
 	<name>hbase.coprocessor.user.region.classes</name>
 	<value>org.apache.hadoop.hbase.coprocessor.AggregateImplementation</value>
-</property>
-<property>
+</property>-->
+<!--<property>
 	<name>hbase.replication</name>
 	<value>true</value>
-</property>
+</property>-->
 </configuration>

@@ -32,12 +32,12 @@ public class RegionObserverTest {
         conf = HBaseConfiguration.create(new Configuration());
         conn = HConnectionManager.createConnection(conf);
         admin = new HBaseAdmin(conf);
-        path = new Path("hdfs://master:9000/hbasesdk/coprocessor/coprocessor.jar");
+        path = new Path("hdfs://master:9000/hbasesdk/coprocessor/RegionObserverExample.jar");
     }
 
     @Test
     public void copyFromLocal() throws Exception {
-        HDFSClient.copyFromLocal(conf,"D:\\ProjectSpace\\Idea\\SAM-SHO\\HBase\\HBase_SDK\\target\\HBase_SDK.jar","hdfs://master:9000/hbasesdk/coprocessor/coprocessor.jar");
+        HDFSClient.copyFromLocal(conf,"D:\\ProjectSpace\\Idea\\SAM-SHO\\HBase\\HBase_SDK\\target\\HBase_SDK.jar","hdfs://master:9000/hbasesdk/coprocessor/RegionObserverExample.jar");
     }
 
     @Test
@@ -60,12 +60,19 @@ public class RegionObserverTest {
         admin.disableTable(tableName);
         HTableDescriptor hTableDescriptor = new HTableDescriptor(tableName);
         HColumnDescriptor columnFamily1 = new HColumnDescriptor("f");
-        columnFamily1.setMaxVersions(2);
+        columnFamily1.setMaxVersions(1);
         hTableDescriptor.addFamily(columnFamily1);
 
+        // 方法一
+        //如果 RegionObserverExample.jar 再hbase的classpath中，可以省略 <path-to-jar> 参数
+        hTableDescriptor.addCoprocessor(RegionObserverExample.class.getCanonicalName());
+//        hTableDescriptor.addCoprocessor(RegionObserverExample.class.getCanonicalName(), path, Coprocessor.PRIORITY_USER, null);
 
-        hTableDescriptor.addCoprocessor(RegionObserverExample.class.getCanonicalName(), path,
-                Coprocessor.PRIORITY_SYSTEM, null);
+        // 方法二
+//        String key = "coprocessor$1";
+//        String value = path.toString() + "|" + RegionObserverExample.class.getCanonicalName()+"|0|";//一定要有以"|"结尾
+//        hTableDescriptor.setValue(key, value);
+
         admin.modifyTable(tableName, hTableDescriptor);
         admin.enableTable(tableName);
     }
