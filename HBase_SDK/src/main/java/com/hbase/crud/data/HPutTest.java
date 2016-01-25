@@ -32,15 +32,19 @@ public class HPutTest {
 
     @Test
     public void testPut() throws Exception {
-        HTableInterface table = connection.getTable(Bytes.toBytes("myTable"));
+        HTableInterface table = connection.getTable(Bytes.toBytes("regionObserver_test"));
+        for (int i=0; i<100; i++) {
+            Put put = new Put(Bytes.toBytes("row"+i));//多行
+            put.add(Bytes.toBytes("f"),Bytes.toBytes("col1"),Bytes.toBytes("val"));
+            put.add(Bytes.toBytes("f"),Bytes.toBytes("col2"),Bytes.toBytes("val"));
+            put.add(Bytes.toBytes("f"),Bytes.toBytes("col3"),Bytes.toBytes("val"));
+            put.add(Bytes.toBytes("f"), Bytes.toBytes("col4"), Bytes.toBytes("val"));
+            put.add(Bytes.toBytes("f"), Bytes.toBytes("col5"), Bytes.toBytes("val"));
+            put.add(Bytes.toBytes("f"), Bytes.toBytes("col6"), Bytes.toBytes("val"));
 
-        Put put = new Put(Bytes.toBytes("row"));//多行
-        put.add(Bytes.toBytes("f"),Bytes.toBytes("col03"),Bytes.toBytes("val"));
-        put.add(Bytes.toBytes("f"), Bytes.toBytes("col"), Bytes.toBytes("val"));
-        put.add(Bytes.toBytes("f"), Bytes.toBytes("col01"), Bytes.toBytes("val"));
-        put.add(Bytes.toBytes("f"), Bytes.toBytes("col02"), Bytes.toBytes("val"));
+            table.put(put);
+        }
 
-        table.put(put);
         table.close();
 
     }

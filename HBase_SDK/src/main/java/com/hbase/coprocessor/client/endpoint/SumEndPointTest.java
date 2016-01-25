@@ -1,3 +1,4 @@
+/*
 package com.hbase.coprocessor.client.endpoint;
 
 import org.apache.hadoop.conf.Configuration;
@@ -11,9 +12,11 @@ import org.apache.hadoop.hbase.ipc.BlockingRpcCallback;
 
 import java.io.IOException;
 
+*/
 /**
  * Created by home on 2016/1/24.
- */
+ *//*
+
 public class SumEndPointTest {
 
 public void test() throws IOException {
@@ -54,3 +57,4 @@ public void test() throws IOException {
 }
 
 }
+*/

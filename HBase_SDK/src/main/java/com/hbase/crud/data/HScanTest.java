@@ -2,22 +2,32 @@ package com.hbase.crud.data;
 
 import junit.framework.TestCase;
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.client.*;
+import org.apache.hadoop.hbase.filter.PageFilter;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.log4j.Appender;
 import org.apache.log4j.AppenderSkeleton;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.spi.LoggingEvent;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.IOException;
 
-public class HScanTest extends TestCase {
-    
+public class HScanTest {
+
+    HConnection conn;
+    @Before
+    public void before() throws IOException {
+        conn = HConnectionManager.createConnection(HBaseConfiguration.create(new Configuration()));
+    }
+
+    @Test
     public void testSingleHScan() throws Exception{
         long start = System.currentTimeMillis();
-        HConnection conn  = HConnectionManager.createConnection(HBaseConfiguration.create(new Configuration()));
         HTableInterface table = conn.getTable(Bytes.toBytes("sdk_test_0002"));
         System.out.println("these Connection total consume ： " + (System.currentTimeMillis()-start));
         Scan scan = new Scan();
@@ -57,7 +67,8 @@ public class HScanTest extends TestCase {
      * User | Date | Description
      * -------------------------
      */
-    public static void cacheAndBatch(Configuration conf, int cache, int batch) throws IOException{
+    @Test
+    public void cacheAndBatch(Configuration conf, int cache, int batch) throws IOException{
         Logger log = Logger.getLogger("org.apache.hadoop");
         
         final int[] counters = {0,0};
@@ -103,12 +114,6 @@ public class HScanTest extends TestCase {
                 + ", Results :  "+ counters[1]
                 + ", RPCs : "+  counters[0]
         );
-        
-        
-        
-        
     }
-    
-    
-    
+
 }
