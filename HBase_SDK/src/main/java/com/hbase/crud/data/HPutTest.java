@@ -18,6 +18,8 @@ public class HPutTest {
     @Before
     public void before() throws IOException {
         Configuration conf = HBaseConfiguration.create(new Configuration());
+        conf.set("hbase.zookeeper.quorum","kmaster,kslave01,kslave02");
+        System.out.println(conf.get("hbase.zookeeper.quorum"));
         connection = HConnectionManager.createConnection(conf);
     }
 

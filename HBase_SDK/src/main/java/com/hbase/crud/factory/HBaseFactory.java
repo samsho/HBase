@@ -85,8 +85,8 @@ public class HBaseFactory {
     /**
      * 
      * Title: getHTable
-     * Description: T获取hbase表的实例化对�? 此方法建议用于读取数据时
-     * date: 2015�?4�?30�? 上午11:14:46
+     * Description: T获取hbase表的实例化对�? 此方法建议用于读取数据时
+     * date: 2015�?4�?30�? 上午11:14:46
      * 
      * @param tableName
      * @return
@@ -103,13 +103,13 @@ public class HBaseFactory {
     /**
      * 
      * Title: getHTable
-     * Description: 获取hbase表的实例化对�? 此方法建议用于写数据�?
-     * date: 2015�?4�?30�? 上午11:15:15
+     * Description: 获取hbase表的实例化对�? 此方法建议用于写数据�?
+     * date: 2015�?4�?30�? 上午11:15:15
      * 
      * @param tableName
-     * 表名�?
+     * 表名�?
      * @param autoFlsh
-     * 是否�?要自动提交，建议赋�?�为false�?
+     * 是否�?要自动提交，建议赋�?�为false�?
      * @return 表的实例
      * @throws Exception
      * @author sz10686
@@ -130,18 +130,18 @@ public class HBaseFactory {
         try {
             Closeables.close(hTableInterface, true);
         } catch (IOException e) {
-            logger.error("关闭表失�?", e);
+            logger.error("关闭表失�?", e);
         }
     }
 
     /**
      * 
      * Title: deleteTable
-     * Description: 删除�?
-     * date: 2015�?5�?12�? 下午12:13:27
+     * Description: 删除�?
+     * date: 2015�?5�?12�? 下午12:13:27
      * 
      * @param tableName
-     * @return true:成功关闭 false�? 未成功关�?
+     * @return true:成功关闭 false�? 未成功关�?
      * @throws Exception
      * @author sz10686
      * Modify History
@@ -161,8 +161,8 @@ public class HBaseFactory {
     /**
      * 
      * Title: deleteTable
-     * Description: 启用�?
-     * date: 2015�?5�?6�? 下午3:12:06
+     * Description: 启用�?
+     * date: 2015�?5�?6�? 下午3:12:06
      * 
      * @param tableName
      * @return
@@ -186,8 +186,8 @@ public class HBaseFactory {
     /**
      * 
      * Title: disable
-     * Description: 禁用�?
-     * date: 2015�?5�?6�? 下午3:18:35
+     * Description: 禁用�?
+     * date: 2015�?5�?6�? 下午3:18:35
      * 
      * @param tableName
      * @return
@@ -221,13 +221,13 @@ public class HBaseFactory {
     /**
      * 
      * @param overwrit
-     * : 表存在的话是否覆盖？true：覆�? false：不覆盖
+     * : 表存在的话是否覆盖？true：覆�? false：不覆盖
      * @param tableName
-     * ：表�?
+     * ：表�?
      * @param family
-     * �? 列族
+     * �? 列族
      * @param encoding
-     * ：缓存的压缩算法，枚举�?�推荐：DataBlockEncoding.DIFF算法
+     * ：缓存的压缩算法，枚举�?�推荐：DataBlockEncoding.DIFF算法
      * @param onDisk
      * ：true:
      * @param cacheEnabled
@@ -240,14 +240,14 @@ public class HBaseFactory {
         // 判断是否覆盖
         HBaseAdmin hBaseAdmin = getHBaseAdmin(path);
         if (overwrit) {
-            // �?测表是否存在�?
+            // �?测表是否存在�?
             try {
                 if (hBaseAdmin.tableExists(tableName)) {
                     hBaseAdmin.disableTable(tableName);
                     hBaseAdmin.deleteTable(tableName);
                 }
             } catch (Exception e) {
-                logger.error("创建表失�?", e);
+                logger.error("创建表失�?", e);
             }
         } else {
             if (hBaseAdmin.tableExists(tableName)) {
@@ -258,9 +258,9 @@ public class HBaseFactory {
         hd.setDataBlockEncoding(encoding);
         // hd.setBlockCacheEnabled(cacheEnabled);
         /**
-         * 为true表示：StoreFile在创建Reader时会创建�?个BlockCache对象(默认为LruBlockCache),
-         * reader读取数据�?,先从BlockCache中读�?,如果缓存中没�?,而且本次读取的结果可以缓�?,
-         * 那么把结�?(CachedBlock)缓存到BlockCache�?.
+         * 为true表示：StoreFile在创建Reader时会创建�?个BlockCache对象(默认为LruBlockCache),
+         * reader读取数据�?,先从BlockCache中读�?,如果缓存中没�?,而且本次读取的结果可以缓�?,
+         * 那么把结�?(CachedBlock)缓存到BlockCache�?.
          */
         hd.setBloomFilterType(bType); // 空间换时间，适用于随机读取（get），可以提高效率
         HTableDescriptor htd = new HTableDescriptor(TableName.valueOf(tableName));
@@ -271,7 +271,7 @@ public class HBaseFactory {
     }
 
     /**
-     * 判断表是否存�?
+     * 判断表是否存�?
      * 
      * @param tableName
      * @return
@@ -283,13 +283,13 @@ public class HBaseFactory {
     }
 
     /**
-     * 创建HBase�?(预分割Region个数)
+     * 创建HBase�?(预分割Region个数)
      * @throws IOException
      */
     public static void createTable(String path) throws Exception {
 
         /*HBaseAdmin hBaseAdmin = getHBaseAdmin(path);
-        // 支持多个family，以（，）分�?
+        // 支持多个family，以（，）分�?
         HTableDescriptor htd = new HTableDescriptor(TableName.valueOf(tableName));
         if (!Strings.isNullOrEmpty(family)) {
             String[] families = family.split(CommonConstants.SPLIT);
@@ -300,14 +300,14 @@ public class HBaseFactory {
                     hd.setDataBlockEncoding(DataBlockEncoding.DIFF);// 压缩算法
                     hd.setBloomFilterType(BloomType.ROWCOL);
                     hd.setMaxVersions(CommonConstants.HBASE_MAX_VERSIONS);//设置保存的版本数,modify by sm12652 20150811
-                    hd.setTimeToLive(ttl);//设置TTL modify by sm12652 20150813(以后如果多列族，�?要�?�当调整)
+                    hd.setTimeToLive(ttl);//设置TTL modify by sm12652 20150813(以后如果多列族，�?要�?�当调整)
                     htd.addFamily(hd);
                 }
             }
         }
 
         byte[][] splits = null;
-        // 不分�?
+        // 不分�?
         if (!obj.isSplit()) {
             hBaseAdmin.createTable(htd);
         } else {
@@ -354,7 +354,7 @@ public class HBaseFactory {
     }
 
     public static String path(String colonyId) {
-        return colonyId+"/hbase-site.xml";
+        return colonyId+ "/hadoop/hbase-site.xml";
     }
 
     /**
@@ -404,12 +404,12 @@ public class HBaseFactory {
     /**
      * 
      * Title: 
-     * Description: 自定义分割加�?
-     * date: 2015�?8�?6�? 下午2:24:45
+     * Description: 自定义分割加�?
+     * date: 2015�?8�?6�? 下午2:24:45
      * 
      * @param numRegions 分割数量
-     * @param startKey �?始分隔符
-     * @param endKey 结束分隔�?
+     * @param startKey �?始分隔符
+     * @param endKey 结束分隔�?
      * @return
      * @author sm12652
      * Modify History
@@ -421,7 +421,7 @@ public class HBaseFactory {
     	String[] hexDigitsModel = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f",
                 "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z" };
         
-    	//截取在两个key之间的�?�，形成新的数组
+    	//截取在两个key之间的�?�，形成新的数组
     	List<String> list = Lists.newArrayList();
     	for (String valueKey : hexDigitsModel) {
         	if(valueKey.compareToIgnoreCase(startKey) >=0 && valueKey.compareToIgnoreCase(endKey)<=0 ){

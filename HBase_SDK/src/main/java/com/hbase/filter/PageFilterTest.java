@@ -28,7 +28,9 @@ public class PageFilterTest {
     HConnection conn;
     @Before
     public void before() throws IOException {
-        conn = HConnectionManager.createConnection(HBaseConfiguration.create(new Configuration()));
+        Configuration conf = HBaseConfiguration.create(new Configuration());
+        conf.set("hbase.zookeeper.quorum","kmaster,kslave01,kslave02");
+        conn = HConnectionManager.createConnection(conf);
     }
 
     @Test
@@ -125,14 +127,14 @@ public class PageFilterTest {
         System.out.println("total rows:" + totalRows);
     }
 
+
+
     @Test
     public void testPageF() throws IOException {
         String startRow = testPage("regionObserver_test", 5, null);
-        System.out.println("startRow + " + startRow);
+        System.out.println("startRow : ~~ " + startRow);
+        testPage("regionObserver_test", 5, startRow);
 //          testPage("regionObserver_test", 5, testPage("regionObserver_test", 5, null));
-
-
-
     }
 
     public  String testPage(String tableName, long pageSize, String startRow) throws IOException {
@@ -140,7 +142,6 @@ public class PageFilterTest {
         int localRows = 0;
         final byte[] POSTFIX = new byte[] { 0x00 };
 
-        HConnection conn = HConnectionManager.createConnection(HBaseConfiguration.create(new Configuration()));
         HTableInterface table = conn.getTable(tableName);
         Filter filter = new PageFilter(pageSize);
 
@@ -156,35 +157,5 @@ public class PageFilterTest {
             lastRow = Bytes.toString(Bytes.add(result.getRow(), POSTFIX));
         }
         return lastRow;
-
-
-
-
-        /*final byte[] POSTFIX = new byte[] { 0x00 };
-        byte[] lastRow = null;
-        int totalRows = 0;
-
-        while (true) {
-            Scan scan = new Scan();
-            scan.setFilter(filter);
-            if(lastRow != null){
-                //注意这里添加了POSTFIX操作，不然死循环了
-                byte[] startRow = Bytes.add(lastRow,POSTFIX);
-                scan.setStartRow(startRow);//[},包前不包后
-            }
-            ResultScanner scanner = table.getScanner(scan);
-            int localRows = 0;
-            Result result;
-            while((result = scanner.next()) != null){
-                System.out.println(localRows++ + ":" + result);
-                totalRows ++;
-                lastRow = result.getRow();
-            }
-            scanner.close();
-            if(localRows == 0) break;
-        }
-        System.out.println("total rows:" + totalRows);
-    }*/
-
     }
 }
