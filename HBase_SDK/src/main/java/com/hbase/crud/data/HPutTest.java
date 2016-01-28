@@ -15,10 +15,11 @@ import java.io.IOException;
 public class HPutTest {
 
     HConnection connection;
+
     @Before
     public void before() throws IOException {
         Configuration conf = HBaseConfiguration.create(new Configuration());
-        conf.set("hbase.zookeeper.quorum","kmaster,kslave01,kslave02");
+//        conf.set("hbase.zookeeper.quorum","master,slave1,slave3");
         System.out.println(conf.get("hbase.zookeeper.quorum"));
         connection = HConnectionManager.createConnection(conf);
     }
@@ -34,7 +35,7 @@ public class HPutTest {
 
     @Test
     public void testPut() throws Exception {
-        HTableInterface table = connection.getTable(Bytes.toBytes("regionObserver_test"));
+        HTableInterface table = connection.getTable(Bytes.toBytes("secure_table_01"));
         for (int i=0; i<100; i++) {
             Put put = new Put(Bytes.toBytes("row"+i));//多行
             put.add(Bytes.toBytes("f"),Bytes.toBytes("col1"),Bytes.toBytes("val"));

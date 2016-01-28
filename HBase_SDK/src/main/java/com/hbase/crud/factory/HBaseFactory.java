@@ -354,7 +354,7 @@ public class HBaseFactory {
     }
 
     public static String path(String colonyId) {
-        return colonyId+ "/hadoop/hbase-site.xml";
+        return colonyId+ "/hbase-site.xml";
     }
 
     /**
