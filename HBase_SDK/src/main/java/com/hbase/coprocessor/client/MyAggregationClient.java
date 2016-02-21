@@ -19,7 +19,7 @@ import java.io.IOException;
 public class MyAggregationClient {
     private static final Logger logger = org.slf4j.LoggerFactory.getLogger(MyAggregationClient.class);
 
-    private static final byte[] TABLE_NAME = Bytes.toBytes("regionObserver_test");
+    private static final byte[] TABLE_NAME = Bytes.toBytes("myTable");
     private static final byte[] CF = Bytes.toBytes("f");
 
     public static void main(String[] args) throws Throwable {
@@ -35,7 +35,7 @@ public class MyAggregationClient {
 
     public static void aggregationClient() {
         Configuration conf = HBaseConfiguration.create(new Configuration());
-        conf.set("hbase.zookeeper.quorum","kmaster,kslave01,kslave02");
+//        conf.set("hbase.zookeeper.quorum","kmaster,kslave01,kslave02");
         AggregationClient aggregationClient = new AggregationClient(conf);
 
         try {
@@ -45,8 +45,6 @@ public class MyAggregationClient {
             LongColumnInterpreter longColumnInterpreter = new LongColumnInterpreter();
             long rowCount  = aggregationClient.rowCount(TableName.valueOf(TABLE_NAME), longColumnInterpreter, scan);
             System.out.println(rowCount);
-
-
         } catch (Throwable e) {
             logger.error("getTotalNumber wrong. ", e);
         }

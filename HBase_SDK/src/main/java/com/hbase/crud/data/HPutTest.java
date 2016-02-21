@@ -16,6 +16,10 @@ public class HPutTest {
 
     HConnection connection;
 
+    public static void main(String[] args) {
+
+    }
+
     @Before
     public void before() throws IOException {
         Configuration conf = HBaseConfiguration.create(new Configuration());
@@ -26,7 +30,7 @@ public class HPutTest {
 
     @Test
     public void testHPut() throws Exception {
-        HTableInterface table = connection.getTable(Bytes.toBytes("table_desc_0001"));
+        HTableInterface table = connection.getTable(Bytes.toBytes("myTable"));
         Put put = new Put(Bytes.toBytes("myRow"));
         put.add(Bytes.toBytes("f"), Bytes.toBytes("myCol_1"), Bytes.toBytes("myVal_1"));
         table.put(put);
@@ -35,7 +39,7 @@ public class HPutTest {
 
     @Test
     public void testPut() throws Exception {
-        HTableInterface table = connection.getTable(Bytes.toBytes("secure_table_01"));
+        HTableInterface table = connection.getTable(Bytes.toBytes("myTable"));
         for (int i=0; i<100; i++) {
             Put put = new Put(Bytes.toBytes("row"+i));//多行
             put.add(Bytes.toBytes("f"),Bytes.toBytes("col1"),Bytes.toBytes("val"));

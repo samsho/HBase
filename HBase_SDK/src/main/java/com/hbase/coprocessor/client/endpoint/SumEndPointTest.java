@@ -1,9 +1,9 @@
-/*
 package com.hbase.coprocessor.client.endpoint;
 
+import com.google.protobuf.ServiceException;
+import com.hbase.coprocessor.proto.SumEndpoint;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.HConnection;
 import org.apache.hadoop.hbase.client.HConnectionManager;
 import org.apache.hadoop.hbase.client.HTableInterface;
@@ -11,38 +11,27 @@ import org.apache.hadoop.hbase.client.coprocessor.Batch;
 import org.apache.hadoop.hbase.ipc.BlockingRpcCallback;
 
 import java.io.IOException;
-
-*/
-/**
- * Created by home on 2016/1/24.
- *//*
+import java.util.Map;
 
 public class SumEndPointTest {
 
 public void test() throws IOException {
 
 
-//    Configuration conf = HBaseConfiguration.create();
-//    // Use below code for HBase version 1.x.x or above.
-//    Connection connection = ConnectionFactory.createConnection(conf);
-//    TableName tableName = TableName.valueOf("users");
-//    Table table = connection.getTable(tableName);
-
-
-    //Use below code HBase version 0.98.xx or below.
+    Configuration conf = HBaseConfiguration.create();
     HConnection connection = HConnectionManager.createConnection(conf);
     HTableInterface table = connection.getTable("users");
 
-    final SumRequest request = SumRequest.newBuilder().setFamily("salaryDet").setColumn("gross")
+    final SumEndpoint.SumRequest request = SumEndpoint.SumRequest.newBuilder().setFamily("salaryDet").setColumn("gross")
             .build();
     try {
-        Map<byte[], Long> results = table.CoprocessorService (SumService.class, null, null,
-                new Batch.Call<SumService, Long>() {
+        Map<byte[], Long> results = table.coprocessorService (SumEndpoint.SumService.class, null, null,
+                new Batch.Call<SumEndpoint.SumService, Long>() {
                     @Override
-                    public Long call(SumService aggregate) throws IOException {
+                    public Long call(SumEndpoint.SumService aggregate) throws IOException {
                         BlockingRpcCallback rpcCallback = new BlockingRpcCallback();
                         aggregate.getSum(null, request, rpcCallback);
-                        SumResponse response = rpcCallback.get();
+                        SumEndpoint.SumResponse response = (SumEndpoint.SumResponse) rpcCallback.get();
                         return response.hasSum() ? response.getSum() : 0L;
                     }
                 });
@@ -57,4 +46,3 @@ public void test() throws IOException {
 }
 
 }
-*/

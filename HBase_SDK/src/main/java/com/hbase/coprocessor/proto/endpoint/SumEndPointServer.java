@@ -1,11 +1,9 @@
-/*
-package com.hbase.coprocessor.server.endpoint;
+package com.hbase.coprocessor.proto.endpoint;
 
 import com.google.protobuf.RpcCallback;
 import com.google.protobuf.RpcController;
 import com.google.protobuf.Service;
-import org.apache.hadoop.hbase.Cell;
-import org.apache.hadoop.hbase.CellUtil;
+import com.hbase.coprocessor.proto.SumEndpoint;
 import org.apache.hadoop.hbase.Coprocessor;
 import org.apache.hadoop.hbase.CoprocessorEnvironment;
 import org.apache.hadoop.hbase.client.Scan;
@@ -17,9 +15,11 @@ import org.apache.hadoop.hbase.regionserver.InternalScanner;
 import org.apache.hadoop.hbase.util.Bytes;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
-public class SumEndPoint extends SumService implements Coprocessor, CoprocessorService {
+/**
+ * 自定义EndPoint
+ */
+public class SumEndPointServer extends SumEndpoint.SumService implements Coprocessor, CoprocessorService {
 
     private RegionCoprocessorEnvironment env;
 
@@ -43,26 +43,15 @@ public class SumEndPoint extends SumService implements Coprocessor, CoprocessorS
     }
 
     @Override
-    public void getSum(RpcController controller, SumRequest request, RpcCallback done) {
+    public void getSum(RpcController controller, SumEndpoint.SumRequest request, RpcCallback done) {
         Scan scan = new Scan();
         scan.addFamily(Bytes.toBytes(request.getFamily()));
         scan.addColumn(Bytes.toBytes(request.getFamily()), Bytes.toBytes(request.getColumn()));
-        SumResponse response = null;
+        SumEndpoint.SumResponse response = null;
         InternalScanner scanner = null;
         try {
             scanner = env.getRegion().getScanner(scan);
-            List results = new ArrayList();
-            boolean hasMore = false;
-                        long sum = 0L;
-                do {
-                        hasMore = scanner.next(results);
-                        for (Cell cell : results) {
-                            sum = sum + Bytes.toLong(CellUtil.cloneValue(cell));
-                     }
-                        results.clear();
-                } while (hasMore);
-
-                response = SumResponse.newBuilder().setSum(sum).build();
+            response = SumEndpoint.SumResponse.newBuilder().setSum(100).build();
 
         } catch (IOException ioe) {
             ResponseConverter.setControllerException(controller, ioe);
@@ -75,4 +64,4 @@ public class SumEndPoint extends SumService implements Coprocessor, CoprocessorS
         }
         done.run(response);
     }
-}*/
+}

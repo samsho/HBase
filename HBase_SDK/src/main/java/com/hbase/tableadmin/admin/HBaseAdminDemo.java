@@ -28,8 +28,8 @@ public class HBaseAdminDemo {
     public void createTable() throws Exception {
         Configuration conf = HBaseConfiguration.create();
         HBaseAdmin hBaseAdmin = new HBaseAdmin(conf);
-        HTableDescriptor htd = new HTableDescriptor(TableName.valueOf("table_desc_0001"));
-        htd.setReadOnly(true);//只读
+        HTableDescriptor htd = new HTableDescriptor(TableName.valueOf("regionObserver_test"));
+//        htd.setReadOnly(true);//只读
 
         HColumnDescriptor hd = new HColumnDescriptor("f");
         htd.addFamily(hd);
