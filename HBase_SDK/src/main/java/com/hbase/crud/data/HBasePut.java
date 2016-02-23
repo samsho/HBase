@@ -1,5 +1,6 @@
 package com.hbase.crud.data;
 
+import org.apache.commons.httpclient.util.DateUtil;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.client.HConnection;
@@ -28,9 +29,6 @@ public class HBasePut {
 
 }
 
-    public static void main(String[] args)  throws Exception{
-        MultThreadInsert(Integer.parseInt(args[0]),Integer.parseInt(args[1]),Integer.parseInt(args[2]));
-    }
 
     public static void MultThreadInsert(int threadNumber, int count, int num) throws InterruptedException {
         logger.info("---------start threadInsert test----------");
@@ -102,5 +100,12 @@ public class HBasePut {
 
     }
 
+
+    public static void main(String[] args)  throws Exception{
+//        MultThreadInsert(Integer.parseInt(args[0]),Integer.parseInt(args[1]),Integer.parseInt(args[2]));
+
+        System.out.println(DateUtil.parseDate("2015-12-01").getTime());
+
+    }
 
 }
