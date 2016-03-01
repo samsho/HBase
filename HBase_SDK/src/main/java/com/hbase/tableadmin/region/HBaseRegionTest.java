@@ -73,58 +73,58 @@ public class HBaseRegionTest {
         System.out.println(clusterStatus);
 
         System.out.println(clusterStatus.getServersSize());//活着的region数量
-        System.out.println(clusterStatus.getServers());//活着的region列表
-        System.out.println(clusterStatus.getDeadServerNames());
+//        System.out.println(clusterStatus.getServers());//活着的region列表
+
         System.out.println(clusterStatus.getDeadServers());
+//        System.out.println(clusterStatus.getDeadServerNames());
+
 
         System.out.println(clusterStatus.getAverageLoad());//平均每台regionserver上线了多少个region
-        System.out.println(clusterStatus.getRegionsCount());//集群region总数�?
+        System.out.println(clusterStatus.getRegionsCount());//集群region总数
         System.out.println(clusterStatus.getRegionsInTransition());//集群正在处理的region事务列表
 
         System.out.println(clusterStatus.getRequestsCount());//集群请求的tps
 
-        System.out.println(clusterStatus.getHBaseVersion());//HBase的版�?
+        System.out.println(clusterStatus.getHBaseVersion());//HBase的版本
         System.out.println(clusterStatus.getVersion());//clusterStatus的版本号
 
-        System.out.println(clusterStatus.getClusterId());//集群编号，集群第�?次启动时候的UUID
-
-        //返回给定region服务器的当前负载状况
-        // ServerName 可以通过getServers()获取
-        System.out.println(clusterStatus.getLoad(null));
+        System.out.println(clusterStatus.getClusterId());//集群编号，集群第1次启动时候的UUID
 
 
         for (ServerName serverName : clusterStatus.getServers()) {
-            //�?个server
-            System.out.println(serverName);
+            //某个个server
+            System.out.println("活着的集群名称" + serverName);
             System.out.println(serverName.getHostAndPort());//域名与RPC端口合并的字符串
             System.out.println(serverName.getHostname());//域名或IP
-            System.out.println(serverName.getStartcode());//服务器启动时间，单位是毫�?
-            System.out.println(serverName.getServerName());//
+            System.out.println(serverName.getStartcode());//服务器启动时间
+//            System.out.println(serverName.getServerName());//
             System.out.println(serverName.getPort());
 
-            // 当前server的负�?
+            // 当前server的负载
+            // 返回给定region服务器的当前负载状况
             ServerLoad serverLoad = clusterStatus.getLoad(serverName);
-            System.out.println(serverLoad);
+            System.out.println("集群" + serverName + "的负载 ： " + serverLoad);
             System.out.println(serverLoad.getLoad());//同getNumberOfRegions
-            System.out.println(serverLoad.getNumberOfRegions());//当前region服务器上线的region数量
+            System.out.println("当前+"+ serverName + "+服务器上线的region数量" + serverLoad.getNumberOfRegions());//当前region服务器上线的region数量
 
-            //当前regionserver这个周期内的tps�?
-            // 周期可以通过hbase.regionserver.msginterval老来设定
+            //当前regionserver这个周期内的tps
+            // 周期可以通过hbase.regionserver.msginterval来设定
             System.out.println(serverLoad.getNumberOfRequests());
             System.out.println(serverLoad.getTotalNumberOfRequests());
 
-            System.out.println(serverLoad.getUsedHeapMB());//JVM已经使用的内�?
+            System.out.println(serverLoad.getUsedHeapMB());//JVM已经使用的内存
             System.out.println(serverLoad.getMaxHeapMB());// jvm�?大可使用内存
 
-            System.out.println(serverLoad.getStorefiles());//当前regionserver的存储文件储�?
+            System.out.println(serverLoad.getStorefiles());//当前regionserver的存储文件储
             System.out.println(serverLoad.getStorefileSizeInMB());//总存储量，单位是MB
             System.out.println(serverLoad.getStorefileIndexSizeInMB());//当前regionserver的存储文件的索引大小
-            System.out.println(serverLoad.getMemstoreSizeInMB());//当前regionserver的已用的写缓存大�?
+            System.out.println(serverLoad.getMemstoreSizeInMB());//当前regionserver的已用的写缓存大
             System.out.println(serverLoad.getRegionsLoad());// 返回每个region的负载情�?.key为region名，值是
 
 
+
             for (Map.Entry<byte[], RegionLoad> entry : serverLoad.getRegionsLoad().entrySet()) {
-                entry.getKey();
+//                entry.getKey();
                 RegionLoad regionLoad = entry.getValue();
                 System.out.println(entry.getKey());
                 System.out.println(regionLoad);
@@ -139,25 +139,9 @@ public class HBaseRegionTest {
                 System.out.println(regionLoad.getMemStoreSizeMB());
                 System.out.println(regionLoad.getRequestsCount());
                 System.out.println(regionLoad.getReadRequestsCount());
-                System.out.println(regionLoad.getReadRequestsCount());
                 System.out.println(regionLoad.getWriteRequestsCount());
-                System.out.println(regionLoad);
-                System.out.println(regionLoad);
-
-
 
             }
-
-
         }
-
-
-
-
-
-
     }
-
-
-
 }

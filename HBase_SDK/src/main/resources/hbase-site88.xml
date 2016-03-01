@@ -21,13 +21,33 @@
  */
 -->
 <configuration>
-
+	<property>
+		<name>hbase.rootdir</name>
+		<value>hdfs://master:9000/hbase</value>
+	</property>
+	<property>
+		<name>hbase.cluster.distributed</name>
+		<value>true</value>
+	</property>
 	<property>
 		<name>hbase.zookeeper.quorum</name>
-		<value>kmaster,kslave01,kslave02</value>
+		<value>master,slave1,slave2</value>
 	</property>
 	<property>
 		<name>hbase.zookeeper.property.clientPort</name>
 		<value>2181</value>
+		<description>Property from ZooKeeper's config zoo.cfg.The port at which the clients will connect.</description>
+	</property>
+	<property>
+		<name>hbase.tmp.dir</name>
+		<value>/data/hadoop/hdfs/data/hbasetmp</value>
+	</property>
+	<property>
+		<name>hbase.coprocessor.user.region.classes</name>
+		<value>org.apache.hadoop.hbase.coprocessor.AggregateImplementation</value>
+	</property>
+	<property>
+		<name>hbase.coprocessor.user.region.classes</name>
+		<value>com.hbase.coprocessor.proto.endpoint.SumEndPointServer</value>
 	</property>
 </configuration>

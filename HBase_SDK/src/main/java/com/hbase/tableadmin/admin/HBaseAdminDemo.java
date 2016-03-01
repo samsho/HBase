@@ -28,13 +28,12 @@ public class HBaseAdminDemo {
     public void createTable() throws Exception {
         Configuration conf = HBaseConfiguration.create();
         HBaseAdmin hBaseAdmin = new HBaseAdmin(conf);
-        HTableDescriptor htd = new HTableDescriptor(TableName.valueOf("regionObserver_test"));
-//        htd.setReadOnly(true);//只读
+        HTableDescriptor htd = new HTableDescriptor(TableName.valueOf("cluster_table"));
 
         HColumnDescriptor hd = new HColumnDescriptor("f");
         htd.addFamily(hd);
         hBaseAdmin.createTable(htd);
-        hBaseAdmin.flush("table_desc_0001");
+        hBaseAdmin.flush("cluster_table");
 
 
     }
@@ -43,7 +42,7 @@ public class HBaseAdminDemo {
     public void createTable1() throws IOException {
         Configuration conf = HBaseConfiguration.create();
         HBaseAdmin hBaseAdmin = new HBaseAdmin(conf);
-        HTableDescriptor htd = new HTableDescriptor(TableName.valueOf("table_desc_0002"));
+        HTableDescriptor htd = new HTableDescriptor(TableName.valueOf("cluster_table"));
 
         HColumnDescriptor hd = new HColumnDescriptor("f");
         hd.setDataBlockEncoding(DataBlockEncoding.DIFF);// 压缩算法

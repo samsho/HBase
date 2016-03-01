@@ -16,9 +16,11 @@
  * limitations under the License.
  *//*
 
-package com.hbase.crud;
+package com.hbase.crud.storm;
 
 import com.google.common.collect.Lists;
+import com.ly.dc.sdk.client.HGet;
+import com.ly.dc.sdk.client.HPut;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.security.UserProvider;
@@ -42,13 +44,19 @@ public class HBaseClient {
 
     private HTable table;
 
-    public HBaseClient(Map<String, Object> map , final Configuration configuration, final String tableName) {
+    public HBaseClient(Map<String, Object> map, final Configuration configuration, final String tableName) {
         try {
             UserProvider provider = HBaseSecurityUtil.login(map, configuration);
             this.table = provider.getCurrent().getUGI().doAs(new PrivilegedExceptionAction<HTable>() {
                 @Override
                 public HTable run() throws IOException {
-                    return new HTable(configuration, tableName);
+
+                    Connection conn = ConnectionManager.getConnection(configuration);
+                    try {
+                        return conn.getHTable(tableName);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             });
         } catch(Exception e) {
@@ -60,7 +68,7 @@ public class HBaseClient {
         List<Mutation> mutations = Lists.newArrayList();
 
         if (cols.hasColumns()) {
-            Put put = new Put(rowKey);
+            HPut put = new HPut(rowKey);
             put.setDurability(durability);
             for (ColumnList.Column col : cols.getColumns()) {
                 if (col.getTs() > 0) {
@@ -115,7 +123,7 @@ public class HBaseClient {
 
 
     public Get constructGetRequests(byte[] rowKey, HBaseProjectionCriteria projectionCriteria) {
-        Get get = new Get(rowKey);
+        HGet get = new HGet(rowKey);
 
         if (projectionCriteria != null) {
             for (byte[] columnFamily : projectionCriteria.getColumnFamilies()) {
@@ -130,7 +138,7 @@ public class HBaseClient {
         return get;
     }
 
-    public Result[] batchGet(List<Get> gets) throws Exception {
+    public Result[] batchGet(List<HGet> gets) throws Exception {
         try {
             return table.get(gets);
         } catch (Exception e) {
