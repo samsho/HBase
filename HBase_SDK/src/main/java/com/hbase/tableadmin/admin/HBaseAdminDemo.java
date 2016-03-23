@@ -2,10 +2,7 @@ package com.hbase.tableadmin.admin;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.*;
-import org.apache.hadoop.hbase.client.Durability;
-import org.apache.hadoop.hbase.client.HBaseAdmin;
-import org.apache.hadoop.hbase.client.HConnectionManager;
-import org.apache.hadoop.hbase.client.HTableInterface;
+import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.io.compress.Compression;
 import org.apache.hadoop.hbase.io.encoding.DataBlockEncoding;
 import org.apache.hadoop.hbase.regionserver.BloomType;
@@ -13,6 +10,8 @@ import org.apache.hadoop.hbase.util.Bytes;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 /**
  * ClassName: HBaseAdminDemo
@@ -28,12 +27,12 @@ public class HBaseAdminDemo {
     public void createTable() throws Exception {
         Configuration conf = HBaseConfiguration.create();
         HBaseAdmin hBaseAdmin = new HBaseAdmin(conf);
-        HTableDescriptor htd = new HTableDescriptor(TableName.valueOf("cluster_table"));
+        HTableDescriptor htd = new HTableDescriptor(TableName.valueOf("myTable"));
 
         HColumnDescriptor hd = new HColumnDescriptor("f");
         htd.addFamily(hd);
         hBaseAdmin.createTable(htd);
-        hBaseAdmin.flush("cluster_table");
+        hBaseAdmin.flush("myTable");
 
 
     }
@@ -128,7 +127,7 @@ public class HBaseAdminDemo {
 
     public void getHTableDescriptor2() throws Exception{
         Configuration conf = HBaseConfiguration.create();
-        HTableInterface table =  HConnectionManager.createConnection(conf).getTable(("table_desc_0001"));
+        HTable table = (HTable) HConnectionManager.createConnection(conf).getTable(("table_desc_0001"));
         HTableDescriptor tableDescriptor = table.getTableDescriptor();
         System.out.println(tableDescriptor.getTableName());
         System.out.println(tableDescriptor);
@@ -178,6 +177,19 @@ public class HBaseAdminDemo {
         }
 
         Thread.sleep(10000L);
+    }
+
+
+    public void getRegionInfo() throws Exception{
+        Configuration conf = HBaseConfiguration.create();
+        HBaseAdmin hBaseAdmin = new HBaseAdmin(conf);
+        List<HRegionInfo> hRegionInfos =  hBaseAdmin.getTableRegions(TableName.valueOf("cluster_table"));
+
+        for (HRegionInfo hRegionInfo : hRegionInfos) {
+            hRegionInfo.getStartKey();
+            hRegionInfo.getEndKey();
+        }
+        
     }
 
 

@@ -3,11 +3,14 @@ package com.hbase.tableadmin.region;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.*;
 import org.apache.hadoop.hbase.client.HBaseAdmin;
+import org.apache.hadoop.hbase.client.HConnectionManager;
+import org.apache.hadoop.hbase.client.HTable;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * ClassName: HBaseRegionTest
@@ -66,10 +69,14 @@ public class HBaseRegionTest {
         hBaseAdmin.stopMaster();//关闭master
         hBaseAdmin.stopRegionServer("");//关闭某台regionserver
     }
-
     @Test
     public void getClusterStatus() throws Exception {
+
         ClusterStatus  clusterStatus =  hBaseAdmin.getClusterStatus();//获取集群信息
+
+        ServerName master =  clusterStatus.getMaster();
+
+
         System.out.println(clusterStatus);
 
         System.out.println(clusterStatus.getServersSize());//活着的region数量
@@ -89,7 +96,6 @@ public class HBaseRegionTest {
         System.out.println(clusterStatus.getVersion());//clusterStatus的版本号
 
         System.out.println(clusterStatus.getClusterId());//集群编号，集群第1次启动时候的UUID
-
 
         for (ServerName serverName : clusterStatus.getServers()) {
             //某个个server
@@ -142,6 +148,46 @@ public class HBaseRegionTest {
                 System.out.println(regionLoad.getWriteRequestsCount());
 
             }
+        }
+    }
+
+
+
+
+    public void getTableInfo() throws IOException {
+        //http://hmaster:60010/table.jsp?name=AreaInfo
+        //HMaster master 怎么拿？？
+
+//        HMaster master =
+        Map<ServerName, Integer> regDistribution = new TreeMap<ServerName, Integer>();
+        HTable table = (HTable) HConnectionManager.createConnection(conf).getTable(("table_desc_0001"));
+        Map<HRegionInfo, ServerName> regions = table.getRegionLocations();
+        HRegionInfo meta = HRegionInfo.FIRST_META_REGIONINFO;
+        meta.getStartKey();
+        meta.getEndKey();
+
+        for (Map.Entry<HRegionInfo, ServerName> hriEntry : regions.entrySet()) {
+            HRegionInfo regionInfo = hriEntry.getKey();
+            ServerName addr = hriEntry.getValue();
+            long req = 0;
+
+            String urlRegionServer = null;
+
+            if (addr != null) {
+
+//                ServerLoad sl = master.getServerManager().getLoad(addr);
+                ServerLoad sl = hBaseAdmin.getClusterStatus().getLoad(addr);
+                if (sl != null) {
+                    Map<byte[], RegionLoad> map = sl.getRegionsLoad();
+                    if (map.containsKey(regionInfo.getRegionName())) {
+                        req = map.get(regionInfo.getRegionName()).getRequestsCount();
+                    }
+                    Integer i = regDistribution.get(addr);
+                    if (null == i) i = Integer.valueOf(0);
+                    regDistribution.put(addr, i + 1);
+                }
+            }
+
         }
     }
 }

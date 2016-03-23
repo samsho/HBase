@@ -42,9 +42,13 @@ public class MyAggregationClient {
             Scan scan ;
             scan= new Scan();
             scan.addFamily(Bytes.toBytes("f"));//必须有此句，或者用addFamily(),否则出错，异常包含 ci ****
+            scan.setStartRow(Bytes.toBytes("row1"));
+            scan.setStopRow(Bytes.toBytes("row10"));
+
+
             LongColumnInterpreter longColumnInterpreter = new LongColumnInterpreter();
             long rowCount  = aggregationClient.rowCount(TableName.valueOf(TABLE_NAME), longColumnInterpreter, scan);
-            System.out.println(rowCount);
+            System.out.println("+++++++++++++++++   rowCount   +++++++++++++++++++++++       " + rowCount);
         } catch (Throwable e) {
             logger.error("getTotalNumber wrong. ", e);
         }

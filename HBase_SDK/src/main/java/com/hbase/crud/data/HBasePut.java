@@ -8,6 +8,7 @@ import org.apache.hadoop.hbase.client.HConnectionManager;
 import org.apache.hadoop.hbase.client.HTableInterface;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.util.Bytes;
+import org.apache.hadoop.hbase.util.MD5Hash;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -68,15 +69,17 @@ public class HBasePut {
 //        Configuration conf = HBaseConfiguration.create(new Configuration());
 //        HConnection connection = HConnectionManager.createConnection(conf);
 
-        HTableInterface table = connection.getTable(Bytes.toBytes("sdk_test_0001"));
+        HTableInterface table = connection.getTable(Bytes.toBytes("dc_dp_cre_0001"));
         System.out.println(table);
         table.setAutoFlushTo(false);
         table.setWriteBufferSize(24 * 1024 * 1024);
 
         List<Put> list = new ArrayList<Put>();
 //        int count = 10000;
+        byte[] row;
         for(int i=0;i<count;i++)  {
-            Put put = new Put((Thread.currentThread().getName()+"row"+i).getBytes());
+            row = Bytes.toBytes(MD5Hash.getMD5AsHex((i + "row").getBytes()));
+            Put put = new Put(row);
             put.add("f".getBytes(), ("col" + i).getBytes(), ("val" + i).getBytes());
             list.add(put);
             if(list.size()==num){
@@ -102,9 +105,9 @@ public class HBasePut {
 
 
     public static void main(String[] args)  throws Exception{
-//        MultThreadInsert(Integer.parseInt(args[0]),Integer.parseInt(args[1]),Integer.parseInt(args[2]));
+        MultThreadInsert(Integer.parseInt(args[0]), Integer.parseInt(args[1]), Integer.parseInt(args[2]));
 
-        System.out.println(DateUtil.parseDate("2015-12-01").getTime());
+//        System.out.println(DateUtil.parseDate("2015-12-01").getTime());
 
     }
 
