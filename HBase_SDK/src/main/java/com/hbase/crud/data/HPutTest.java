@@ -24,15 +24,16 @@ public class HPutTest {
     public void before() throws IOException {
         Configuration conf = HBaseConfiguration.create(new Configuration());
 //        conf.set("hbase.zookeeper.quorum","master,slave1,slave3");
+        conf.set("hbase.zookeeper.quorum","hmaster.localdomain,hslave02.localdomain,hslave01.localdomain");
         System.out.println(conf.get("hbase.zookeeper.quorum"));
         connection = HConnectionManager.createConnection(conf);
     }
 
     @Test
     public void testHPut() throws Exception {
-        HTableInterface table = connection.getTable(Bytes.toBytes("myTable"));
+        HTableInterface table = connection.getTable(Bytes.toBytes("dc_dp_test_0001"));
         Put put = new Put(Bytes.toBytes("myRow"));
-        put.add(Bytes.toBytes("f"), Bytes.toBytes("myCol_1"), Bytes.toBytes("myVal_1"));
+        put.add(Bytes.toBytes("f"), Bytes.toBytes("myCol_2"), Bytes.toBytes("myVal_2"));
         table.put(put);
         table.close();
     }

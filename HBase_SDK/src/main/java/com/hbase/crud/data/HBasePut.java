@@ -1,6 +1,5 @@
 package com.hbase.crud.data;
 
-import org.apache.commons.httpclient.util.DateUtil;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.client.HConnection;
@@ -69,10 +68,10 @@ public class HBasePut {
 //        Configuration conf = HBaseConfiguration.create(new Configuration());
 //        HConnection connection = HConnectionManager.createConnection(conf);
 
-        HTableInterface table = connection.getTable(Bytes.toBytes("dc_dp_cre_0001"));
+        HTableInterface table = connection.getTable(Bytes.toBytes("dc_dp_test_0001"));
         System.out.println(table);
         table.setAutoFlushTo(false);
-        table.setWriteBufferSize(24 * 1024 * 1024);
+        table.setWriteBufferSize(24 * 1024 * 1024);//24M
 
         List<Put> list = new ArrayList<Put>();
 //        int count = 10000;
@@ -105,7 +104,8 @@ public class HBasePut {
 
 
     public static void main(String[] args)  throws Exception{
-        MultThreadInsert(Integer.parseInt(args[0]), Integer.parseInt(args[1]), Integer.parseInt(args[2]));
+//        MultThreadInsert(Integer.parseInt(args[0]), Integer.parseInt(args[1]), Integer.parseInt(args[2]));
+        MultThreadInsert(350, 50000, 20000);
 
 //        System.out.println(DateUtil.parseDate("2015-12-01").getTime());
 

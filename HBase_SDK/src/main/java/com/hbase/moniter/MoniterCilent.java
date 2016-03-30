@@ -37,7 +37,6 @@ public class MoniterCilent {
         System.out.println("Response content: " + resStr);
 
 
-
     }
 
 

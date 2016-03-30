@@ -5,6 +5,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
+import org.apache.hadoop.hbase.util.MD5Hash;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,7 +24,7 @@ public class HGetTest {
     @Test
     public void testHGet() throws Exception{
         long start = System.currentTimeMillis();
-        HTableInterface table = connection.getTable(Bytes.toBytes("sdk_test_0002"));
+        HTableInterface table = connection.getTable(Bytes.toBytes("dc_dp_test_0001"));
         Get get = new Get(Bytes.toBytes("myRow"));
         Result result = table.get(get);
         System.out.println(result);
@@ -46,7 +47,7 @@ public class HGetTest {
         System.out.println("these Connection total consume ： " + (System.currentTimeMillis()-start));
         List<Get> gets = Lists.newArrayList();
         for (int i = 0; i < 2000000; i++) {
-            Get get = new Get(Bytes.toBytes("row" + i));
+            Get get = new Get(Bytes.toBytes(MD5Hash.getMD5AsHex((i + "row").getBytes())));
             gets.add(get);
         }
         table.get(gets);

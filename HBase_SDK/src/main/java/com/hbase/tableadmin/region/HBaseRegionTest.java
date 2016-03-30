@@ -35,6 +35,10 @@ public class HBaseRegionTest {
         }
     }
 
+    /**
+     * HBaseAdmin 的各方法
+     * @throws Exception
+     */
     @Test
     public void method() throws Exception {
         System.out.println(hBaseAdmin);
@@ -69,6 +73,11 @@ public class HBaseRegionTest {
         hBaseAdmin.stopMaster();//关闭master
         hBaseAdmin.stopRegionServer("");//关闭某台regionserver
     }
+
+    /**
+     * 获取集群信息
+     * @throws Exception
+     */
     @Test
     public void getClusterStatus() throws Exception {
 
@@ -82,7 +91,7 @@ public class HBaseRegionTest {
         System.out.println(clusterStatus.getServersSize());//活着的region数量
 //        System.out.println(clusterStatus.getServers());//活着的region列表
 
-        System.out.println(clusterStatus.getDeadServers());
+        System.out.println(clusterStatus.getDeadServers());//挂掉的
 //        System.out.println(clusterStatus.getDeadServerNames());
 
 
@@ -152,8 +161,10 @@ public class HBaseRegionTest {
     }
 
 
-
-
+    /**
+     * 获取表信息
+     * @throws IOException
+     */
     public void getTableInfo() throws IOException {
         //http://hmaster:60010/table.jsp?name=AreaInfo
         //HMaster master 怎么拿？？
