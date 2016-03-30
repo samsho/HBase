@@ -2,15 +2,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <artifactId>HBase_SDK</artifactId>
-        <groupId>HBase</groupId>
-        <version>1.0-SNAPSHOT</version>
-        <relativePath>../HBase_SDK/pom.xml</relativePath>
-    </parent>
     <modelVersion>4.0.0</modelVersion>
-
+    <groupId>HBase</groupId>
     <artifactId>HbaseStudy</artifactId>
+    <version>1.0.0-snapshots</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -20,9 +15,8 @@
         <slf4j.version>1.7.13</slf4j.version>
         <junit.version>[4.11,5)</junit.version>
     </properties>
+
     <dependencies>
-
-
         <!-- Common -->
         <dependency>
             <groupId>junit</groupId>
