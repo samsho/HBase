@@ -30,4 +30,9 @@
 		<name>hbase.zookeeper.property.clientPort</name>
 		<value>2181</value>
 	</property>
+	<property>
+		<name>hbase.client.retries.number</name>
+		<value>1</value>
+	</property>
+
 </configuration>
