@@ -165,13 +165,14 @@ public class HBaseRegionTest {
      * 获取表信息
      * @throws IOException
      */
+    @Test
     public void getTableInfo() throws IOException {
         //http://hmaster:60010/table.jsp?name=AreaInfo
         //HMaster master 怎么拿？？
 
 //        HMaster master =
         Map<ServerName, Integer> regDistribution = new TreeMap<ServerName, Integer>();
-        HTable table = (HTable) HConnectionManager.createConnection(conf).getTable(("table_desc_0001"));
+        HTable table = (HTable) HConnectionManager.createConnection(conf).getTable(("AreaInfo"));
         Map<HRegionInfo, ServerName> regions = table.getRegionLocations();
         HRegionInfo meta = HRegionInfo.FIRST_META_REGIONINFO;
         meta.getStartKey();
@@ -200,5 +201,6 @@ public class HBaseRegionTest {
             }
 
         }
+        regDistribution.containsKey("1");
     }
 }

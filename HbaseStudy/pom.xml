@@ -320,7 +320,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>com.hbase.tableadmin.admin.SyncTTL</mainClass>
+                            <mainClass>com.hbase.com.hbase.SyncTTL</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
